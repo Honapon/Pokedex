@@ -1,0 +1,23 @@
+<!-- app/templates/display.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pokémon Info</title>
+</head>
+<body>
+    <h1>Pokémon Lookup</h1>
+    <form method="POST">
+        <input type="text" name="pokemon_name" placeholder="Enter Pokémon name">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if pokemon %}
+        <h2>{{ pokemon.name.capitalize() }}</h2>
+        <img src="{{ pokemon.image_url }}" alt="{{ pokemon.name }}">
+        <p>ID: {{ pokemon.id }}</p>
+        <p>Height: {{ pokemon.height }} M</p>
+        <p>Weight: {{ pokemon.weight }} Kg</p>
+        <p><strong>Source:</strong> {{ source }}</p>
+    {% endif %}
+</body>
+</html>

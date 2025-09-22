@@ -9,12 +9,14 @@ def add_to_db(pokemon_info):
         return False
     try: 
         cursor = connection.cursor()
-        query = """INSERT INTO pokemon (id, pokémon, height, weight) VALUES (%s, %s, %s, %s)"""
+        imageurl = pokemon_info['sprites']['front_default']
+        query = """INSERT INTO pokemon (id, pmon, height, weight, imageurl) VALUES (%s, %s, %s, %s, %s)"""
         cursor.execute(query, (
             pokemon_info['id'],
             pokemon_info['name'].lower(),
             pokemon_info['height'] / 10,
-            pokemon_info['weight'] / 10
+            pokemon_info['weight'] / 10,
+            imageurl
         ))
         connection.commit()
         return True
@@ -34,7 +36,7 @@ def pokemon_exists(pokemon_name):
         return False
     try:
         cursor = connection.cursor()
-        query = "SELECT id FROM pokemon WHERE pokémon = %s"
+        query = "SELECT id FROM pokemon WHERE pmon = %s"
         cursor.execute(query, (pokemon_name.lower(),))
         result = cursor.fetchone()
         return result is not None
@@ -49,12 +51,13 @@ def pokemon_from_db(pokemon_name):
         return None
     try: 
         cursor = connection.cursor(dictionary=True)
-        query = "SELECT id, pokémon, height, weight FROM pokemon WHERE pokémon = %s"  
+        query = "SELECT id, pmon, height, weight, imageurl FROM pokemon WHERE pmon = %s"  
         cursor.execute(query, (pokemon_name.lower(),))    
         result = cursor.fetchone()
         return result
     finally:
         if connection.is_connected():
+            
             cursor.close()
             connection.close()
 
