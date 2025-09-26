@@ -1,13 +1,18 @@
 import mysql.connector
 from mysql.connector import Error
 
-
+mydb = {
+    'host': '10.100.100.210',
+    'user': 'pokedata',
+    'password': 'pokekopi',
+    'database': 'pokedex'
+}
 
 mydbLh = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': '',
-    'database': ''
+    'password': 'Korn123',
+    'database': 'pokedex'
 }
 
 
