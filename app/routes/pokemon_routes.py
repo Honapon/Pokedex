@@ -10,9 +10,14 @@ def index():
     error = None
     
     if request.method == 'POST':
-        name = request.form['pokemon_name'].lower()
         
-        if not pokemon_exists(name):
+        
+        name = request.form['pokemon_name'].lower()
+        dex_id = request.form['pokemon_name']
+
+            
+        
+        if not pokemon_exists(name, dex_id):
             info = get_pokemon_info(name)
             if info:
                 add_to_db(info)
@@ -27,7 +32,7 @@ def index():
             else: 
                 error = "Could not retrieve Pokémon data from API."
         else: 
-            info = pokemon_from_db(name)
+            info = pokemon_from_db(name, dex_id)
             if info:
                 pokemon_data = {
                     "id": info["id"],

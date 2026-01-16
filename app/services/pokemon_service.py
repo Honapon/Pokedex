@@ -30,14 +30,14 @@ def add_to_db(pokemon_info):
             cursor.close()
             connection.close()
 
-def pokemon_exists(pokemon_name):
+def pokemon_exists(pokemon_name, pok_id):
     connection = dbconnect()
     if connection is None:
         return False
     try:
         cursor = connection.cursor()
-        query = "SELECT id FROM pokemon WHERE pmon = %s"
-        cursor.execute(query, (pokemon_name.lower(),))
+        query = "SELECT id FROM pokemon WHERE pmon = %s OR id =%s"
+        cursor.execute(query, (pokemon_name.lower(), pok_id))
         result = cursor.fetchone()
         return result is not None
     finally:
@@ -45,14 +45,14 @@ def pokemon_exists(pokemon_name):
             cursor.close()
             connection.close()
 
-def pokemon_from_db(pokemon_name):
+def pokemon_from_db(pokemon_name, pok_id):
     connection = dbconnect()
     if connection is None:
         return None
     try: 
-        cursor = connection.cursor()
-        query = "SELECT id, pmon, height, weight, imageurl FROM pokemon WHERE pmon = %s"  
-        cursor.execute(query, (pokemon_name.lower(),))    
+        cursor = connection.cursor(dictionary=True)
+        query = "SELECT id, pmon, height, weight, imageurl FROM pokemon WHERE pmon = %s OR id = %s"  
+        cursor.execute(query, (pokemon_name.lower(), pok_id))    
         result = cursor.fetchone()
         return result
     finally:
