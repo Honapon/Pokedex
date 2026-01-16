@@ -27,14 +27,14 @@ def index():
             else: 
                 error = "Could not retrieve Pokémon data from API."
         else: 
-            db_data = pokemon_from_db(name)
-            if db_data:
+            info = pokemon_from_db(name)
+            if info:
                 pokemon_data = {
-                    "id": db_data["id"],
-                    "name": db_data["pmon"],
-                    "height": db_data["height"] / 10,
-                    "weight": db_data["weight"] / 10,
-                    "image" : db_data["imageurl"]
+                    "id": info["id"],
+                    "name": info["pmon"],
+                    "height": info["height"] / 10,
+                    "weight": info["weight"] / 10,
+                    "image" : info["imageurl"]
                 }
                 source = 'database'
             else:

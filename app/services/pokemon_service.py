@@ -50,7 +50,7 @@ def pokemon_from_db(pokemon_name):
     if connection is None:
         return None
     try: 
-        cursor = connection.cursor(dictionary=True)
+        cursor = connection.cursor()
         query = "SELECT id, pmon, height, weight, imageurl FROM pokemon WHERE pmon = %s"  
         cursor.execute(query, (pokemon_name.lower(),))    
         result = cursor.fetchone()

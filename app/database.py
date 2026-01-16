@@ -2,12 +2,18 @@ import mysql.connector
 from mysql.connector import Error
 
 mydb = {
-    'host': '127.0.0.1',
+    'host': '10.100.100.210',
     'user': 'pokedata',
     'password': 'pokekopi',
     'database': 'pokedex'
 }
 
+mydbLh = {
+    'host': '127.0.0.1',
+    'user': 'root',
+    'password': 'Korn123',
+    'database': 'pokedex'
+}
 
 
 
@@ -15,9 +21,8 @@ mydb = {
 def dbconnect():
     try:
         connection = mysql.connector.connect(**mydb)
-        #connection = mysql.connector.connect(**mydbLh)
+        # connection = mysql.connector.connect(**mydbLh)
         return connection
-        
         
     except Error as e:
         print(f"Error connecting to mariadb: {e}")
