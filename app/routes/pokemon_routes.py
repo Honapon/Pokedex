@@ -11,8 +11,22 @@ def index():
     
     if request.method == 'POST':
         name = request.form['pokemon_name'].lower()
-        
-        if not pokemon_exists(name):
+        if pokemon_exists(name):
+            info = pokemon_from_db(name)
+            if info:
+                pokemon_data = {
+                    "id": info["id"],
+                    "name": info["pmon"],
+                    "height": info["height"] / 10,
+                    "weight": info["weight"] / 10,
+                    "image" : info["imageurl"]
+                }
+                source = 'database'
+            else:
+                error = "Pokémon not found in database."        
+
+        else: 
+
             info = get_pokemon_info(name)
             if info:
                 add_to_db(info)
@@ -26,19 +40,6 @@ def index():
                 source = 'API'
             else: 
                 error = "Could not retrieve Pokémon data from API."
-        else: 
-            info = pokemon_from_db(name)
-            if info:
-                pokemon_data = {
-                    "id": info["id"],
-                    "name": info["pmon"],
-                    "height": info["height"] / 10,
-                    "weight": info["weight"] / 10,
-                    "image" : info["imageurl"]
-                }
-                source = 'database'
-            else:
-                error = "Pokémon not found in database."
                 
     return render_template('display.html', pokemon=pokemon_data, source=source, error=error)
     
