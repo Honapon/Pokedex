@@ -12,13 +12,22 @@ def index():
     if request.method == 'POST':
         
         
-        name = request.form['pokemon_name'].lower()
-        dex_id = request.form['pokemon_name']
-
-            
+        name_input = request.form['pokemon_name']
         
-        if not pokemon_exists(name, dex_id):
-            info = get_pokemon_info(name)
+
+        if not name_input:
+            error = "Input is required"
+        elif name_input.isalpha():
+            name = name_input.lower()
+            pok_id = None
+        elif name_input.isdigit():
+            pok_id = int(name_input)
+            name = ""
+            
+        # tar i mot input fra form, sjekker om pokemon er i database eller ikke og derav henter data fra api eller database
+        
+        if not pokemon_exists(name,pok_id):
+            info = get_pokemon_info(name,pok_id)
             if info:
                 add_to_db(info)
                 pokemon_data = {
@@ -32,14 +41,14 @@ def index():
             else: 
                 error = "Could not retrieve Pokémon data from API."
         else: 
-            info = pokemon_from_db(name, dex_id)
-            if info:
+            db_data = pokemon_from_db(name,pok_id)
+            if db_data:
                 pokemon_data = {
-                    "id": info["id"],
-                    "name": info["pmon"],
-                    "height": info["height"] / 10,
-                    "weight": info["weight"] / 10,
-                    "image" : info["imageurl"]
+                    "id": db_data["id"],
+                    "name": db_data["pmon"],
+                    "height": db_data["height"] / 10,
+                    "weight": db_data["weight"] / 10,
+                    "image" : db_data["imageurl"]
                 }
                 source = 'database'
             else:

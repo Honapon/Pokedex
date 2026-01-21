@@ -3,13 +3,13 @@
 <html>
 <head>
     <title>Pokémon Info</title>
-    <link rel="stylesheet" href="/app/static/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div class="container">
         <h1>Pokémon Lookup</h1>
         <form method="POST">
-            <input type="text" name="pokemon_name" placeholder="Enter Pokémon name">
+            <input type="text" name="pokemon_name" placeholder="Enter Pokémon name" autofocus>
             <button type="submit">Search</button>
         </form>
 
